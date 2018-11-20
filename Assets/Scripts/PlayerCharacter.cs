@@ -48,14 +48,19 @@ public class PlayerCharacter : MonoBehaviour
 
         // move right/left
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
             var touchDelta = Input.GetTouch(0).deltaPosition.normalized;
             axis = touchDelta.x;
-            transform.Translate(new Vector3(axis * moveSpeed, 0, 0));
         }
+        transform.Translate(new Vector3(axis * moveSpeed, 0, 0));
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).tapCount == 1 && IsGrounded())
+#if UNITY_EDITOR
+        if (Input.GetButtonDown("Jump"))
         {
+#else
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).tapCount == 1 && IsGrounded()) {
+#endif
             rig2d.velocity = new Vector2(rig2d.velocity.x, 5);
         }
 
@@ -77,6 +82,7 @@ public class PlayerCharacter : MonoBehaviour
 
     bool IsGrounded () {
         var distanceFromGround = Physics2D.Raycast(transform.position, Vector3.down, RAY_CAST_DISTANCE, groundMask);
+        Debug.Log(distanceFromGround.distance - characterHeightOffset);
         return distanceFromGround.distance - characterHeightOffset <= 0;
     }
 }
