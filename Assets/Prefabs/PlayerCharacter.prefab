@@ -25,9 +25,9 @@ GameObject:
   - component: {fileID: 61732436146639476}
   - component: {fileID: 50681473661894194}
   - component: {fileID: 114955715297854000}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: PlayerCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,7 +114,7 @@ Animator:
   m_GameObject: {fileID: 1983926056640362}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 7ecdb8983ed214a7b83c771ef497c43b, type: 2}
+  m_Controller: {fileID: 22100000, guid: ba97e5056bd404cb9b358ebe4178d0c0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e6281f254a14ba4849a125e3f6c852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.6
-  characterHeightOffset: 0.4
+  moveSpeed: 0.1
+  characterHeightOffset: 0.5
   groundMask:
     serializedVersion: 2
     m_Bits: 256

@@ -397,8 +397,9 @@ GameObject:
   - component: {fileID: 1724947543}
   - component: {fileID: 1724947542}
   - component: {fileID: 1724947544}
-  m_Layer: 0
-  m_Name: Tilemap
+  - component: {fileID: 1724947545}
+  m_Layer: 8
+  m_Name: 1-wayplatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -942,7 +943,7 @@ CompositeCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 0
@@ -1605,6 +1606,24 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
+--- !u!251 &1724947545
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724947538}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 120
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1001 &1894664765
 Prefab:
   m_ObjectHideFlags: 0
@@ -1643,22 +1662,6 @@ Prefab:
     - target: {fileID: 4768803962601540, guid: cc35f18034dfa43169b105d7f2b192f4, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114955715297854000, guid: cc35f18034dfa43169b105d7f2b192f4,
-        type: 2}
-      propertyPath: groundMask.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95795539068140972, guid: cc35f18034dfa43169b105d7f2b192f4,
-        type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: ba97e5056bd404cb9b358ebe4178d0c0,
-        type: 2}
-    - target: {fileID: 114955715297854000, guid: cc35f18034dfa43169b105d7f2b192f4,
-        type: 2}
-      propertyPath: moveSpeed
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc35f18034dfa43169b105d7f2b192f4, type: 2}
