@@ -6,8 +6,13 @@ using UnityEngine.Events;
 public class PlayerCharacter : MonoBehaviour
 {
     #region ATTRIBUTE
-    [SerializeField] float moveSpeed = 0.6f;
-
+    [SerializeField] float m_MoveSpeed = 0.6f;
+    [SerializeField] float m_JumpVelocity = 5.0f;
+    bool m_bTwoStepJump = false;
+    public bool TwoStepJump {
+        get { return m_bTwoStepJump; }
+        set { m_bTwoStepJump = value; }
+    }
     #endregion
 
     #region ANIMATION_RELATED
@@ -34,6 +39,7 @@ public class PlayerCharacter : MonoBehaviour
     public int hp = 4;
     static readonly float RAY_CAST_DISTANCE = 100.0f;
 
+
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -54,15 +60,15 @@ public class PlayerCharacter : MonoBehaviour
             var touchDelta = Input.GetTouch(0).deltaPosition.normalized;
             axis = touchDelta.x;
         }
-        transform.Translate(new Vector3(axis * moveSpeed, 0, 0));
+        transform.Translate(new Vector3(axis * m_MoveSpeed, 0, 0));
 
-#if UNITY_EDITOR
-        if (Input.GetButtonDown("Jump") && IsGrounded()) {
-#else
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).tapCount == 1 && IsGrounded()) {
-#endif
-            rig2d.velocity = new Vector2(rig2d.velocity.x, 5);
-        }
+//#if UNITY_EDITOR
+//        if (Input.GetButtonDown("Jump") && IsGrounded()) {
+//#else
+//        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).tapCount == 1 && IsGrounded()) {
+//#endif
+        //    rig2d.velocity = new Vector2(rig2d.velocity.x, 5);
+        //}
 
         var distanceFromGround = Physics2D.Raycast(transform.position, Vector3.down, 1, groundMask);
 
@@ -71,13 +77,33 @@ public class PlayerCharacter : MonoBehaviour
         animator.SetFloat(hashGroundDistance, distanceFromGround.distance.Equals(0) ? 99 : distanceFromGround.distance - characterHeightOffset);
         animator.SetFloat(hashFallSpeed, rig2d.velocity.y);
         animator.SetFloat(hashSpeed, Mathf.Abs(axis));
-        if (Input.GetKeyDown(KeyCode.Z)) { animator.SetTrigger(hashAttack1); }
-        if (Input.GetKeyDown(KeyCode.X)) { animator.SetTrigger(hashAttack2); }
-        if (Input.GetKeyDown(KeyCode.C)) { animator.SetTrigger(hashAttack3); }
 
         // flip sprite
         if (!axis.Equals(0))
             spriteRenderer.flipX = axis < 0;
+    }
+
+    int m_JumpTimes = 0;
+    public void Jump () {
+        bool is_grounded = IsGrounded();
+        if (is_grounded)
+            m_JumpTimes = 0;
+
+        // If cannot two step jump and is grounded then jump
+        if (!TwoStepJump && is_grounded)
+        {
+            rig2d.velocity = new Vector2(rig2d.velocity.x, m_JumpVelocity);
+        }
+        else if (TwoStepJump && is_grounded) {
+            // if can two step jump and is grounded, then jump the first time
+            rig2d.velocity = new Vector2(rig2d.velocity.x, m_JumpVelocity);
+            m_JumpTimes++;
+        }
+        else if (TwoStepJump && !is_grounded && m_JumpTimes < 2) {
+            // if can two step jump and is already jump one time then jump second time
+            rig2d.velocity = new Vector2(rig2d.velocity.x, m_JumpVelocity);
+            m_JumpTimes++;
+        }
     }
 
     bool IsGrounded () {
@@ -89,7 +115,6 @@ public class PlayerCharacter : MonoBehaviour
     int m_SowrdLevel = 0;
     public void SwordLevelUp () {
         m_SowrdLevel++;
-        Debug.Log("Sword Level Up");
     }
 
     public void Attack () {
