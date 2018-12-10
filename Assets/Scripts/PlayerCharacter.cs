@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -56,8 +57,7 @@ public class PlayerCharacter : MonoBehaviour
         transform.Translate(new Vector3(axis * moveSpeed, 0, 0));
 
 #if UNITY_EDITOR
-        if (Input.GetButtonDown("Jump"))
-        {
+        if (Input.GetButtonDown("Jump") && IsGrounded()) {
 #else
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).tapCount == 1 && IsGrounded()) {
 #endif
@@ -82,7 +82,29 @@ public class PlayerCharacter : MonoBehaviour
 
     bool IsGrounded () {
         var distanceFromGround = Physics2D.Raycast(transform.position, Vector3.down, RAY_CAST_DISTANCE, groundMask);
-        Debug.Log(distanceFromGround.distance - characterHeightOffset);
+        //Debug.Log(distanceFromGround.distance - characterHeightOffset);
         return distanceFromGround.distance - characterHeightOffset <= 0;
+    }
+
+    int m_SowrdLevel = 0;
+    public void SwordLevelUp () {
+        m_SowrdLevel++;
+        Debug.Log("Sword Level Up");
+    }
+
+    public void Attack () {
+        switch (m_SowrdLevel) {
+            case 0:
+                return;
+            case 1:
+                animator.SetTrigger(hashAttack1);
+                break;
+            case 2:
+                animator.SetTrigger(hashAttack2);
+                break;
+            case 3:
+                animator.SetTrigger(hashAttack3);
+                break;
+        }
     }
 }
