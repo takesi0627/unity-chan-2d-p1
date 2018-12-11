@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212220691842103784}
   - component: {fileID: 60112942791806124}
   - component: {fileID: 114827381872865980}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ItemShoes
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
